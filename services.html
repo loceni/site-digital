@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services - DBG Agency</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+
+    /* Navigation (même style) */
+    header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 1rem 0;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+      animation: slideDown 0.8s ease-out;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: bold;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      color: #667eea;
+      transform: translateY(-2px);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -5px;
+      left: 50%;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      transition: all 0.3s ease;
+    }
+
+    .nav-links a:hover::after, .nav-links a.active::after {
+      width: 100%;
+      left: 0;
+    }
+
+    /* Page Hero */
+    .page-hero {
+      text-align: left;
+      padding: 120px 2rem 80px;
+      color: white;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      gap: 3rem;
+    }
+
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -50%;
+      right: -50%;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%" r="50%"><stop offset="0%" style="stop-color:rgba(255,255,255,0.1)"/><stop offset="100%" style="stop-color:rgba(255,255,255,0)"/></radialGradient></defs><circle cx="250" cy="250" r="100" fill="url(%23a)"/><circle cx="750" cy="150" r="80" fill="url(%23a)"/><circle cx="600" cy="400" r="120" fill="url(%23a)"/></svg>');
+      animation: float 20s infinite linear;
+      z-index: 1;
+    }
+
+    .hero-content {
+      flex: 1;
+      z-index: 2;
+      position: relative;
+    }
+
+    .hero-image {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 2rem;
+      position: relative;
+    }
+
+    .hero-image:hover {
+      transform: scale(1.05) rotate(2deg);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+    }
+
+    .page-hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      animation: fadeInLeft 1s ease-out 0.3s both;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      z-index: 2;
+      position: relative;
+    }
+
+    .page-hero p {
+      font-size: 1.2rem;
+      animation: fadeInLeft 1s ease-out 0.6s both;
+      max-width: 600px;
+      z-index: 2;
+      position: relative;
+    }
+
+    /* Services Grid */
+    .services-container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+    }
+
+    .service-card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      padding: 3rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .service-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .service-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.15);
+    }
+
+    .service-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .service-icon {
+      font-size: 3rem;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .service-card h2 {
+      font-size: 2.2rem;
+      color: #333;
+    }
+
+    .service-description {
+      font-size: 1.1rem;
+      color: #555;
+      margin-bottom: 2rem;
+      line-height: 1.8;
+    }
+
+    .service-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .feature {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .feature::before {
+      content: '✓';
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      color: #667eea;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .feature:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .feature h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+
+    .feature p {
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    .service-pricing {
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white;
+      padding: 1.5rem;
+      border-radius: 10px;
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .service-pricing h3 {
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+    }
+
+    .price {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    .btn {
+      display: inline-block;
+      background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+      color: white;
+      padding: 12px 25px;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(255, 107, 107, 0.6);
+    }
+
+    /* Process Section */
+    .process-section {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      padding: 3rem;
+      margin: 2rem auto;
+      max-width: 1200px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    .process-section h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+      color: #333;
+      position: relative;
+    }
+
+    .process-section h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+    }
+
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .process-step {
+      text-align: center;
+      position: relative;
+      padding: 2rem 1rem;
+    }
+
+    .step-number {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin: 0 auto 1rem;
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    }
+
+    .process-step h3 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    .process-step p {
+      color: #666;
+      line-height: 1.6;
+    }
+
+    /* Footer */
+    footer {
+      background: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      margin-top: 3rem;
+    }
+
+    /* Animations */
+    @keyframes slideDown {
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes fadeInRight {
+      from {
+        opacity: 0;
+        transform: translateX(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes float {
+      0% { transform: translateX(-100px); }
+      100% { transform: translateX(100vw); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .page-hero {
+        flex-direction: column;
+        text-align: center;
+        gap: 2rem;
+      }
+
+      .hero-content {
+        order: 2;
+      }
+
+      .hero-image {
+        width: 200px;
+        height: 200px;
+        order: 1;
+      }
+
+      .page-hero h1 {
+        font-size: 2.2rem;
+      }
+
+      .service-card {
+        padding: 2rem;
+        margin: 1rem;
+      }
+
+      .service-header {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .service-features {
+        grid-template-columns: 1fr;
+      }
+
+      .process-section {
+        margin: 1rem;
+        padding: 2rem;
+      }
+
+      .process-steps {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <header>
+    <nav>
+      <div class="logo" onclick="window.location.href='index.html'">DBG Agency</div>
+      <ul class="nav-links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="about.html">À propos</a></li>
+        <li><a href="services.html" class="active">Services</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Page Hero -->
+  <section class="page-hero">
+    <div class="hero-content">
+      <h1>Nos Services</h1>
+      <p>Des solutions digitales complètes pour propulser votre entreprise vers le succès</p>
+    </div>
+    <img src="images/image4.jpg" alt="Services Digitaux" class="hero-image" />
+  </section>
+
+  <div class="services-container">
+    <!-- SEO & Référencement -->
+    <div class="service-card">
+      <div class="service-header">
+        <div class="service-icon">🚀</div>
+        <h2>AUDIT ET REFERENCEMENT DIGITALM(SEO/SEA)</h2>
+      </div>
+      <p class="service-description">
+        Dominez les résultats de recherche Google et attirez un trafic qualifié vers votre site web. Notre approche SEO combine expertise technique et stratégie de contenu pour des résultats durables.
+      </p>
+      
+      <div class="service-features">
+        <div class="feature">
+          <h3>Audit SEO Complet</h3>
+          <p>Analyse technique approfondie de votre site et identification des points d'amélioration</p>
+        </div>
+        <div class="feature">
+          <h3> Stratégie et formation digitale </h3>
+          <p>La transformation digitale n'est plus une option mais une nécessité : élaborer une stratégie digitale et former les collaborateurs sont aujourd'hui des conditions essentielles pour rester compétitif.</p>
+        </div>
+        <div class="feature">
+          <h3>Link Building</h3>
+          <p>Stratégie de création de liens de qualité pour renforcer l'autorité de votre site</p>
+        </div>
+        <div class="feature">
+          <h3>Suivi & Reporting</h3>
+          <p>Rapports mensuels détaillés sur les performances et l'évolution du positionnement</p>
+        </div>
+      </div>
+
+      <div class="service-pricing">
+        <h3>À partir de</h3>
+        <div class="price">350 000 FCFA</div>
+        <a href="contact.html" class="btn">Demander un audit gratuit</a>
+      </div>
+    </div>
+
+    <!-- Réseaux Sociaux -->
+    <div class="service-card">
+      <div class="service-header">
+        <div class="service-icon">📱</div>
+        <h2>Gestion des Réseaux Sociaux</h2>
+      </div>
+      <p class="service-description">
+        Développez votre communauté et engagez votre audience sur toutes les plateformes sociales. De la stratégie à la création de contenu, nous gérons votre présence sociale de A à Z.
+      </p>
+      
+      <div class="service-features">
+        <div class="feature">
+          <h3>Stratégie Social Media</h3>
+          <p>Définition de votre ligne éditoriale et calendrier de publication personnalisé</p>
+        </div>
+        <div class="feature">
+          <h3>Création de Contenu</h3>
+          <p>Design graphique, vidéos, rédaction adaptés à chaque plateforme</p>
+        </div>
+        <div class="feature">
+          <h3>Community Management</h3>
+          <p>Animation de votre communauté et gestion des interactions quotidiennes</p>
+        </div>
+        <div class="feature">
+          <h3>Publicité Sociale</h3>
+          <p>Campagnes publicitaires ciblées sur Facebook, Instagram, LinkedIn</p>
+        </div>
+      </div>
+
+      <div class="service-pricing">
+        <h3>À partir de</h3>
+        <div class="price">60 000 FCFA</div>
+        <a href="contact.html" class="btn">Créer ma stratégie sociale</a>
+      </div>
+    </div>
+
+    <!-- Publicité Digitale -->
+    <div class="service-card">
+      <div class="service-header">
+        <div class="service-icon">🎯</div>
+        <h2>Publicité Digitale (PPC)</h2>
+      </div>
+      <p class="service-description">
+        Maximisez votre retour sur investissement avec des campagnes publicitaires optimisées. Google Ads, Facebook Ads, LinkedIn Ads : nous maîtrisons toutes les plateformes.
+      </p>
+      
+      <div class="service-features">
+        <div class="feature">
+          <h3>Google Ads</h3>
+          <p>Campagnes Search, Display et Shopping pour une visibilité maximale</p>
+        </div>
+        <div class="feature">
+          <h3>Facebook & Instagram Ads</h3>
+          <p>Ciblage précis et créations publicitaires engageantes</p>
+        </div>
+        <div class="feature">
+          <h3>LinkedIn Ads</h3>
+          <p>Spécialement conçu pour le B2B et la génération de leads qualifiés</p>
+        </div>
+        <div class="feature">
+          <h3>Optimisation Continue</h3>
+          <p>Tests A/B et ajustements constants pour améliorer les performances</p>
+        </div>
+      </div>
+
+      <div class="service-pricing">
+        <h3>À partir de</h3>
+        <div class="price">60 000 FCFA</div>
+        <p style="font-size: 0.9rem; margin-top: 0.5rem; opacity: 0.8;">Communication digitale</p>
+        <a href="contact.html" class="btn">Lancer ma campagne</a>
+      </div>
+    </div>
+
+    <!-- Formation -->
+    <div class="service-card">
+      <div class="service-header">
+        <div class="service-icon">🎓</div>
+        <h2>Formations Digitales</h2>
+      </div>
+      <p class="service-description">
+        Formez vos équipes aux outils et stratégies digitales modernes. Nos formations sur-mesure vous permettent de maîtriser les compétences nécessaires pour réussir dans l'ère numérique.
+      </p>
+      
+      <div class="service-features">
+        <div class="feature">
+          <h3>Formation Marketing Digital</h3>
+          <p>Apprenez les fondamentaux du marketing digital et des réseaux sociaux</p>
+        </div>
+        <div class="feature">
+          <h3>Formation SEO</h3>
+          <p>Maîtrisez les techniques de référencement naturel pour optimiser votre visibilité</p>
+        </div>
+        <div class="feature">
+          <h3>Formation Outils Digitaux</h3>
+          <p>Découvrez les meilleurs outils pour automatiser et optimiser vos processus</p>
+        </div>
+        <div class="feature">
+          <h3>Support Personnalisé</h3>
+          <p>Accompagnement post-formation et support technique inclus</p>
+        </div>
+      </div>
+
+      <div class="service-pricing">
+        <h3>À partir de</h3>
+        <div class="price">250 000 FCFA</div>
+        <a href="contact.html" class="btn">Programmer une formation</a>
+      </div>
+    </div>
+
+    <!-- Etude de marché -->
+    <div class="service-card">
+      <div class="service-header">
+        <div class="service-icon">📊</div>
+        <h2>Étude de Marché</h2>
+      </div>
+      <p class="service-description">
+        Analysez votre marché, vos concurrents et identifiez les opportunités de croissance. Nos études approfondies vous donnent les clés pour prendre des décisions stratégiques éclairées.
+      </p>
+      
+      <div class="service-features">
+        <div class="feature">
+          <h3>Analyse Concurrentielle</h3>
+          <p>Étude détaillée de vos concurrents directs et indirects</p>
+        </div>
+        <div class="feature">
+          <h3>Analyse du Marché</h3>
+          <p>Taille du marché, tendances et opportunités de croissance</p>
+        </div>
+        <div class="feature">
+          <h3>Personas & Ciblage</h3>
+          <p>Définition précise de vos clients idéaux et de leurs comportements</p>
+        </div>
+        <div class="feature">
+          <h3>Recommandations Stratégiques</h3>
+          <p>Plan d'action concret basé sur les résultats de l'étude</p>
+        </div>
+      </div>
+
+      <div class="service-pricing">
+        <h3>À partir de</h3>
+        <div class="price">450 000 FCFA</div>
+        <a href="contact.html" class="btn">Commander une étude</a>
+      </div>
+    </div>
+
+    <!-- Conseils et accompagnement -->
+    <div class="service-card">
+      <div class="service-header">
+        <div class="service-icon">🤝</div>
+        <h2>Conseils et Accompagnement Clients</h2>
+      </div>
+      <p class="service-description">
+        Bénéficiez de notre expertise pour structurer votre stratégie digitale. Accompagnement personnalisé pour optimiser votre présence en ligne et atteindre vos objectifs business.
+      </p>
+      
+      <div class="service-features">
+        <div class="feature">
+          <h3>Audit Stratégique</h3>
+          <p>Évaluation complète de votre situation digitale actuelle</p>
+        </div>
+        <div class="feature">
+          <h3>Plan d'Action Personnalisé</h3>
+          <p>Feuille de route adaptée à vos objectifs et votre budget</p>
+        </div>
+        <div class="feature">
+          <h3>Suivi Mensuel</h3>
+          <p>Points réguliers pour ajuster la stratégie et mesurer les progrès</p>
+        </div>
+        <div class="feature">
+          <h3>Support Technique</h3>
+          <p>Assistance technique et conseils d'optimisation en continu</p>
+        </div>
+      </div>
+
+      <div class="service-pricing">
+        <h3>À partir de</h3>
+        <div class="price">50 000 FCFA</div>
+        <a href="contact.html" class="btn">Débuter l'accompagnement</a>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-header">
+        <div class="service-icon">📝</div>
+        <h2>Marketing de Contenu</h2>
+      </div>
+      <p class="service-description">
+        Attirez et fidélisez vos clients avec du contenu de qualité. Blog, newsletters, livres blancs : nous créons du contenu qui convertit et renforce votre expertise.
+      </p>
+      
+      <div class="service-features">
+        <div class="feature">
+          <h3>Stratégie de Contenu</h3>
+          <p>Définition des sujets et calendrier éditorial aligné sur vos objectifs</p>
+        </div>
+        <div class="feature">
+          <h3>Rédaction Web SEO</h3>
+          <p>Articles de blog optimisés pour le référencement et l'engagement</p>
+        </div>
+        <div class="feature">
+          <h3>Contenus Premium</h3>
+          <p>Livres blancs, études de cas, guides pour générer des leads</p>
+        </div>
+        <div class="feature">
+          <h3>Newsletter</h3>
+          <p>Campagnes email personnalisées pour nurturing et fidélisation</p>
+        </div>
+      </div>
+
+      <div class="service-pricing">
+        <h3>À partir de</h3>
+        <div class="price">60 000 FCFA</div>
+        <a href="contact.html" class="btn">Développer mon contenu</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notre Process -->
+  <section class="process-section">
+    <h2>Notre Méthode de Travail</h2>
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="step-number">1</div>
+        <h3>Audit & Analyse</h3>
+        <p>Nous analysons votre situation actuelle, vos objectifs et votre concurrence pour définir la meilleure stratégie.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-number">2</div>
+        <h3>Stratégie Sur-Mesure</h3>
+        <p>Création d'une stratégie digitale personnalisée avec des objectifs clairs et des KPIs mesurables.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-number">3</div>
+        <h3>Mise en Œuvre</h3>
+        <p>Déploiement de toutes les actions prévues avec un suivi quotidien et des ajustements si nécessaire.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-number">4</div>
+        <h3>Optimisation</h3>
+        <p>Analyse des résultats et optimisation continue pour maximiser votre retour sur investissement.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 DBG Agency - Tous droits réservés | Votre partenaire digital de confiance</p>
+  </footer>
+
+  <script>
+    // Animation des éléments au scroll
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.service-card, .process-step').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
+      el.style.transition = 'all 0.6s ease';
+      observer.observe(el);
+    });
+
+    // Header background change on scroll
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      if (window.scrollY > 100) {
+        header.style.background = 'rgba(255, 255, 255, 0.98)';
+      } else {
+        header.style.background = 'rgba(255, 255, 255, 0.95)';
+      }
+    });
+
+    // Interactive features on service cards
+    document.querySelectorAll('.feature').forEach(feature => {
+      feature.addEventListener('mouseenter', () => {
+        feature.style.background = 'linear-gradient(45deg, #f8f9ff, #ffffff)';
+      });
+      
+      feature.addEventListener('mouseleave', () => {
+        feature.style.background = 'white';
+      });
+    });
+
+    // Smooth animations for process steps
+    document.querySelectorAll('.process-step').forEach((step, index) => {
+      step.style.animationDelay = `${index * 0.2}s`;
+      step.addEventListener('mouseenter', () => {
+        step.querySelector('.step-number').style.transform = 'scale(1.1)';
+      });
+      
+      step.addEventListener('mouseleave', () => {
+        step.querySelector('.step-number').style.transform = 'scale(1)';
+      });
+    });
+  </script>
+</body>
+</html>

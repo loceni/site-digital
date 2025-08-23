@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact - DBG Agency</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+
+    /* Navigation */
+    header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 1rem 0;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+      animation: slideDown 0.8s ease-out;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: bold;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      color: #667eea;
+      transform: translateY(-2px);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -5px;
+      left: 50%;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      transition: all 0.3s ease;
+    }
+
+    .nav-links a:hover::after, .nav-links a.active::after {
+      width: 100%;
+      left: 0;
+    }
+
+    /* Page Hero */
+    .page-hero {
+      text-align: center;
+      padding: 120px 2rem 60px;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%" r="50%"><stop offset="0%" style="stop-color:rgba(255,255,255,0.1)"/><stop offset="100%" style="stop-color:rgba(255,255,255,0)"/></radialGradient></defs><circle cx="200" cy="300" r="100" fill="url(%23a)"/><circle cx="800" cy="200" r="120" fill="url(%23a)"/></svg>');
+      animation: float 18s infinite linear;
+    }
+
+    .page-hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      animation: fadeInUp 1s ease-out;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .page-hero p {
+      font-size: 1.2rem;
+      animation: fadeInUp 1s ease-out 0.3s both;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Contact Section */
+    .contact-container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+
+    .contact-info {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      padding: 3rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .contact-info h2 {
+      font-size: 2.2rem;
+      margin-bottom: 2rem;
+      color: #333;
+      position: relative;
+    }
+
+    .contact-info h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .contact-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .contact-icon {
+      font-size: 2rem;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .contact-details h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+
+    .contact-details p {
+      color: #666;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .social-link {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-decoration: none;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .social-link:hover {
+      transform: translateY(-3px) scale(1.1);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.5);
+    }
+
+    /* Contact Form */
+    .contact-form {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      padding: 3rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      animation: fadeInUp 1s ease-out 0.3s both;
+    }
+
+    .contact-form h2 {
+      font-size: 2.2rem;
+      margin-bottom: 2rem;
+      color: #333;
+      position: relative;
+    }
+
+    .contact-form h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+    }
+
+    .form-group {
+      margin-bottom: 2rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 15px;
+      border: 2px solid #e1e5e9;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background: white;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .budget-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .budget-option {
+      position: relative;
+    }
+
+    .budget-option input[type="radio"] {
+      display: none;
+    }
+
+    .budget-option label {
+      display: block;
+      padding: 15px;
+      background: white;
+      border: 2px solid #e1e5e9;
+      border-radius: 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .budget-option input[type="radio"]:checked + label {
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white;
+      border-color: #667eea;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-submit {
+      background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+      color: white;
+      padding: 18px 35px;
+      border: none;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .btn-submit::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .btn-submit:hover::before {
+      left: 100%;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(255, 107, 107, 0.6);
+    }
+
+    .btn-submit:active {
+      transform: translateY(-1px);
+    }
+
+    /* FAQ Section */
+    .faq-section {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      padding: 3rem;
+      margin: 3rem auto;
+      max-width: 1200px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    .faq-section h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+      color: #333;
+      position: relative;
+    }
+
+    .faq-section h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+    }
+
+    .faq-item {
+      background: white;
+      margin-bottom: 1rem;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .faq-item:hover {
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .faq-question {
+      padding: 1.5rem 2rem;
+      background: white;
+      border: none;
+      width: 100%;
+      text-align: left;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #333;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+
+    .faq-question:hover {
+      background: #f8f9ff;
+    }
+
+    .faq-question.active {
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white;
+    }
+
+    .faq-icon {
+      font-size: 1.2rem;
+      transition: transform 0.3s ease;
+    }
+
+    .faq-question.active .faq-icon {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      background: #f8f9ff;
+    }
+
+    .faq-answer.active {
+      max-height: 200px;
+    }
+
+    .faq-answer-content {
+      padding: 1.5rem 2rem;
+      color: #666;
+      line-height: 1.8;
+    }
+
+    /* Footer */
+    footer {
+      background: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      margin-top: 3rem;
+    }
+
+    /* Animations */
+    @keyframes slideDown {
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes float {
+      0% { transform: translateX(-100px); }
+      100% { transform: translateX(100vw); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .page-hero h1 {
+        font-size: 2.2rem;
+      }
+
+      .contact-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        margin: 1rem;
+        padding: 0 1rem;
+      }
+
+      .contact-info, .contact-form {
+        padding: 2rem;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .budget-options {
+        grid-template-columns: 1fr;
+      }
+
+      .faq-section {
+        margin: 2rem 1rem;
+        padding: 2rem;
+      }
+
+      .social-links {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <header>
+    <nav>
+      <div class="logo" onclick="window.location.href='index.html'">DBG Agency</div>
+      <ul class="nav-links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="about.html">À propos</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="contact.html" class="active">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Page Hero -->
+  <section class="page-hero">
+    <h1>Contactez-nous</h1>
+    <p>Prêt à booster votre présence digitale ? Parlons de votre projet !</p>
+  </section>
+
+  <!-- Contact Section -->
+  <div class="contact-container">
+    <!-- Contact Info -->
+    <div class="contact-info">
+      <h2>Restons en contact</h2>
+      <p style="margin-bottom: 2rem; color: #666; line-height: 1.8;">
+        Notre équipe d'experts est là pour vous accompagner dans votre transformation digitale. 
+        N'hésitez pas à nous contacter pour discuter de vos besoins.
+      </p>
+
+      <div class="contact-item">
+        <div class="contact-icon">📍</div>
+        <div class="contact-details">
+          <h3>Adresse</h3>
+          <p>Abidjan cocody  centre<br></p>
+        </div>
+      </div>
+
+      <div class="contact-item">
+        <div class="contact-icon">📞</div>
+        <div class="contact-details">
+          <h3>Téléphone</h3>
+          <p>+225 0798075549 /+225 0143733272<br>Du lundi au vendredi, 9h-18h</p>
+        </div>
+      </div>
+
+      <div class="contact-item">
+        <div class="contact-icon">✉️</div>
+        <div class="contact-details">
+          <h3>Email</h3>
+          <p>dbgagency@gmail.com<br>Réponse sous 24h</p>
+        </div>
+      </div>
+
+      <div class="contact-item">
+        <div class="contact-icon">⚡</div>
+        <div class="contact-details">
+          <h3>Consultation gratuite</h3>
+          <p>30 minutes d'audit offert<br>Sans engagement</p>
+        </div>
+      </div>
+
+      <div class="social-links">
+        <a href="#" class="social-link" title="LinkedIn">💼</a>
+        <a href="#" class="social-link" title="Facebook">📘</a>
+        <a href="#" class="social-link" title="Twitter">🐦</a>
+        <a href="#" class="social-link" title="Instagram">📷</a>
+      </div>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="contact-form">
+      <h2>Demander un devis</h2>
+      <form id="contactForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="prenom">Prénom *</label>
+            <input type="text" id="prenom" name="prenom" required>
+          </div>
+          <div class="form-group">
+            <label for="nom">Nom *</label>
+            <input type="text" id="nom" name="nom" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email *</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="telephone">Téléphone</label>
+            <input type="tel" id="telephone" name="telephone">
+          </div>
+          <div class="form-group">
+            <label for="entreprise">Entreprise</label>
+            <input type="text" id="entreprise" name="entreprise">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="service">Service souhaité *</label>
+          <select id="service" name="service" required>
+            <option value="">Sélectionnez un service</option>
+            <option value="seo">SEO & Référencement</option>
+            <option value="social">Réseaux sociaux</option>
+            <option value="ads">Publicité digitale</option>
+            <option value="content">Marketing de contenu</option>
+            <option value="audit">Audit complet</option>
+            <option value="autre">Autre</option>
+          </select>
+        </div>
+
+        
+        </div>
+
+        <div class="form-group">
+          <label for="message">Décrivez votre projet *</label>
+          <textarea id="message" name="message" placeholder="Parlez-nous de vos objectifs, de votre secteur d'activité et de vos attentes..." required></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit">
+          Envoyer ma demande 🚀
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- FAQ Section -->
+  <section class="faq-section">
+    <h2>Questions Fréquentes</h2>
+    
+    <div class="faq-item">
+      <button class="faq-question">
+        <span>Combien de temps faut-il pour voir des résultats ?</span>
+        <span class="faq-icon">⌄</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-content">
+          Les résultats varient selon le service : pour le SEO, comptez 3-6 mois pour des résultats significatifs. 
+          Pour la publicité digitale, les premiers résultats sont visibles dès les premières semaines. 
+          Les réseaux sociaux nécessitent généralement 2-3 mois pour développer une communauté engagée.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        <span>Proposez-vous des contrats sans engagement ?</span>
+        <span class="faq-icon">⌄</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-content">
+          Oui, nous proposons des formules flexibles. Bien que nous recommandions un engagement minimal 
+          de 6 mois pour optimiser les résultats, nous pouvons adapter nos contrats selon vos besoins 
+          et commencer par des missions ponctuelles.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        <span>Comment mesurez-vous le succès de vos campagnes ?</span>
+        <span class="faq-icon">⌄</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-content">
+          Nous utilisons des KPIs précis selon vos objectifs : trafic organique, taux de conversion, 
+          ROI des campagnes publicitaires, engagement sur les réseaux sociaux, leads générés. 
+          Vous recevez des rapports détaillés mensuels avec analyse et recommandations.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        <span>Travaillez-vous avec tous types d'entreprises ?</span>
+        <span class="faq-icon">⌄</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-content">
+          Absolument ! Nous accompagnons aussi bien les startups que les PME et grandes entreprises, 
+          dans tous les secteurs d'activité. Notre approche sur-mesure s'adapte à votre taille, 
+          budget et objectifs spécifiques.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        <span>Puis-je avoir un audit gratuit de ma présence digitale ?</span>
+        <span class="faq-icon">⌄</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-content">
+          Oui ! Nous offrons un audit gratuit de 30 minutes pour analyser votre situation actuelle 
+          et identifier les opportunités d'amélioration. C'est sans engagement et nous vous fournirons 
+          des recommandations concrètes même si vous ne travaillez pas avec nous.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 DBG Agency - Tous droits réservés | Votre partenaire digital de confiance</p>
+  </footer>
+
+  <script>
+    // Form handling
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Simple form validation
+      const requiredFields = this.querySelectorAll('[required]');
+      let isValid = true;
+      
+      requiredFields.forEach(field => {
+        if (!field.value.trim()) {
+          isValid = false;
+          field.style.borderColor = '#ff6b6b';
+        } else {
+          field.style.borderColor = '#667eea';
+        }
+      });
+      
+      if (isValid) {
+        // Simulate form submission
+        const submitBtn = this.querySelector('.btn-submit');
+        const originalText = submitBtn.textContent;
+        
+        submitBtn.textContent = 'Envoi en cours...';
+        submitBtn.style.background = 'linear-gradient(45deg, #52c41a, #389e0d)';
+        
+        setTimeout(() => {
+          submitBtn.textContent = 'Message envoyé ! ✅';
+          setTimeout(() => {
+            submitBtn.textContent = originalText;
+            submitBtn.style.background = 'linear-gradient(45deg, #ff6b6b, #ee5a24)';
+            this.reset();
+          }, 2000);
+        }, 1500);
+      } else {
+        // Show error message
+        alert('Veuillez remplir tous les champs obligatoires.');
+      }
+    });
+
+    // FAQ functionality
+    document.querySelectorAll('.faq-question').forEach(question => {
+      question.addEventListener('click', () => {
+        const faqItem = question.parentElement;
+        const answer = faqItem.querySelector('.faq-answer');
+        const isActive = question.classList.contains('active');
+        
+        // Close all other FAQ items
+        document.querySelectorAll('.faq-question').forEach(q => {
+          q.classList.remove('active');
+          q.parentElement.querySelector('.faq-answer').classList.remove('active');
+        });
+        
+        // Toggle current FAQ item
+        if (!isActive) {
+          question.classList.add('active');
+          answer.classList.add('active');
+        }
+      });
+    });
+
+    // Header background change on scroll
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      if (window.scrollY > 100) {
+        header.style.background = 'rgba(255, 255, 255, 0.98)';
+      } else {
+        header.style.background = 'rgba(255, 255, 255, 0.95)';
+      }
+    });
+
+    // Form field animations
+    document.querySelectorAll('input, select, textarea').forEach(field => {
+      field.addEventListener('focus', () => {
+        field.parentElement.style.transform = 'translateY(-2px)';
+      });
+      
+      field.addEventListener('blur', () => {
+        field.parentElement.style.transform = 'translateY(0)';
+      });
+    });
+
+    // Contact items hover effect
+    document.querySelectorAll('.contact-item').forEach(item => {
+      item.addEventListener('mouseenter', () => {
+        item.style.background = 'linear-gradient(45deg, #f8f9ff, #ffffff)';
+      });
+      
+      item.addEventListener('mouseleave', () => {
+        item.style.background = 'white';
+      });
+    });
+
+    // Social links animation
+    document.querySelectorAll('.social-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        link.style.transform = 'scale(0.9)';
+        setTimeout(() => {
+          link.style.transform = 'scale(1)';
+        }, 150);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>À propos - DBG Agency</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+
+    /* Navigation (même style que l'accueil) */
+    header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 1rem 0;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+      animation: slideDown 0.8s ease-out;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: bold;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      color: #667eea;
+      transform: translateY(-2px);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -5px;
+      left: 50%;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      transition: all 0.3s ease;
+    }
+
+    .nav-links a:hover::after, .nav-links a.active::after {
+      width: 100%;
+      left: 0;
+    }
+
+    /* Page Header */
+    .page-hero {
+      text-align: center;
+      padding: 120px 2rem 60px;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%" r="50%"><stop offset="0%" style="stop-color:rgba(255,255,255,0.1)"/><stop offset="100%" style="stop-color:rgba(255,255,255,0)"/></radialGradient></defs><circle cx="300" cy="200" r="80" fill="url(%23a)"/><circle cx="700" cy="300" r="120" fill="url(%23a)"/></svg>');
+      animation: float 15s infinite linear;
+    }
+
+    .page-hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      animation: fadeInUp 1s ease-out;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .page-hero p {
+      font-size: 1.2rem;
+      animation: fadeInUp 1s ease-out 0.3s both;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .hero-image {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 2rem;
+      position: relative;
+    }
+    .hero-image img:first-child {
+      width: 100%;
+      max-width: 500px;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      animation: fadeInRight 1s ease-out 0.5s both;
+      transition: transform 0.3s ease;
+    }
+    .hero-image img:first-child:hover {
+      transform: scale(1.05);
+    }
+
+    .hero-image img:last-child {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      animation: fadeInRight 1s ease-out 0.8s both;
+      transition: transform 0.3s ease;
+      border: 4px solid rgba(255, 255, 255, 0.8);
+    }
+
+    
+
+
+    /* Content Sections */
+    .content-section {
+      background: rgba(255, 255, 255, 0.95);
+      margin: 2rem auto;
+      max-width: 1200px;
+      border-radius: 20px;
+      padding: 3rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .content-section h2 {
+      font-size: 2.2rem;
+      margin-bottom: 2rem;
+      color: #333;
+      position: relative;
+    }
+
+    .content-section h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+    }
+
+    .content-section p {
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+      color: #555;
+      line-height: 1.8;
+    }
+
+    /* Team Section */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .team-member {
+      background: white;
+      padding: 2rem;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .team-member::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .team-member:hover::before {
+      transform: scaleX(1);
+    }
+
+    .team-member:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .team-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin: 0 auto 1rem;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      color: white;
+    }
+
+    .team-member h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+
+    .team-role {
+      color: #667eea;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+
+    /* Values Grid */
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .value-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .value-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .value-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .value-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .value-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .value-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    /* CTA Section */
+    .cta-section {
+      text-align: center;
+      padding: 3rem;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white;
+      border-radius: 20px;
+      margin: 2rem auto;
+      max-width: 1200px;
+    }
+
+    .btn {
+      display: inline-block;
+      background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+      color: white;
+      padding: 15px 30px;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+      position: relative;
+      overflow: hidden;
+      margin-top: 1rem;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(255, 107, 107, 0.6);
+    }
+
+    /* Footer */
+    footer {
+      background: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      margin-top: 3rem;
+    }
+
+    /* Animations */
+    @keyframes slideDown {
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes float {
+      0% { transform: translateX(-100px); }
+      100% { transform: translateX(100vw); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .page-hero h1 {
+        font-size: 2.2rem;
+      }
+
+      .content-section {
+        margin: 1rem;
+        padding: 2rem;
+      }
+
+      .team-grid, .values-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-section {
+        margin: 1rem;
+        padding: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <header>
+    <nav>
+      <div class="logo" onclick="window.location.href='index.html'">DBG Agency</div>
+      <ul class="nav-links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="about.html" class="active">À propos</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Page Hero -->
+  <section class="page-hero">
+    <h1>À propos de DBG Agency</h1>
+    <p>Une équipe passionnée dédiée à votre succès digital</p>
+    <div class="hero-image">
+        <img src="images/image5.jpg" alt="Marketing Digital" />
+       
+    </div>
+  </section>
+
+  <!-- Notre Histoire -->
+  <section class="content-section">
+    <h2>Notre Histoire</h2>
+    <p>Notre entreprise est un cabinet de conseil en marketing digital basé à Abidjan, en Côte d’Ivoire. Nous accompagnons nos clients dans la définition, la mise en œuvre et l’optimisation de leurs stratégies digitales afin d’augmenter leur visibilité, engager leur audience et générer de la croissance. Ce projet est né d’une ambition forte, celle d’accompagner les marques locales et culturelles d’Afrique francophone dans leur transformation digitale, tout en valorisant leur identité, leur histoire et leurs richesses. Dans un contexte où de nombreuses entreprises locales peinent à se faire une place sur les canaux numériques,
+        Nous proposons des solutions sur mesure qui allient stratégie digitale, storytelling culturel et communication authentique.</p>
+    
+  </section>
+
+  <!-- Notre Mission -->
+  <section class="content-section">
+    <h2>Notre Mission</h2>
+    <p>Notre démarche consiste à accompagner la transformation digitale des marques locales en intégrant des outils innovants, adaptés à leurs réalités culturelles et économiques. Nous plaçons au cœur de notre stratégie la valorisation de l’identité culturelle des marques africaines à travers des actions de communication créatives, authentiques et porteuses de sens.
+
+Nous concevons et mettons en œuvre des stratégies marketing sur mesure, alignées sur les valeurs, l’histoire et les produits des entreprises clientes. Parallèlement, nous accordons une importance particulière au renforcement des compétences digitales des entrepreneurs, artisans, artistes et structures culturelles, afin de leur permettre de devenir pleinement autonomes dans leur communication et leur présence en ligne.
+
+Notre engagement se traduit également par la promotion de l’économie locale et du « made in Africa », en offrant une visibilité accrue aux produits et savoir-faire africains sur les marchés nationaux et internationaux. Dans cette perspective, nous créons du contenu digital original – vidéos, visuels, récits, podcasts – en lien avec les traditions, l’artisanat, la gastronomie ou encore les cosmétiques africains.
+
+Enfin, nous assurons une veille stratégique et concurrentielle constante afin d’anticiper les tendances du numérique et de proposer des solutions innovantes, adaptées aux besoins et aux ambitions des marques africaines.</p>
+  </section>
+
+  <!-- Notre Équipe -->
+  <section class="content-section">
+    <h2>Notre Équipe</h2>
+    <p>Notre force réside dans la diversité et l'expertise de notre équipe. Chaque membre apporte sa passion et son savoir-faire unique pour créer des solutions digitales exceptionnelles.</p>
+    
+    <div class="team-grid">
+      <div class="team-member">
+        <div class="team-avatar">👩‍💻</div>
+        <h3>DABRE MARIAM</h3>
+        <div class="team-role">Directeur & Stratège Digital</div>
+      </div>
+      
+      <div class="team-member">
+        <div class="team-avatar">👩‍💻</div>
+        <h3>BAKAYOKO FATOUMATA THERESA</h3>
+        <div class="team-role">Responsable SEO</div>
+      </div>
+      
+      <div class="team-member">
+        <div class="team-avatar">👩‍💻</div>
+        <h3>GBESSI EVA AURORE</h3>
+        <div class="team-role">Créatif & Community Manager</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Nos Valeurs -->
+  <section class="content-section">
+    <h2>Nos Valeurs</h2>
+    <p>Ces valeurs guident chacune de nos actions et définissent notre façon unique de travailler avec nos clients.</p>
+    
+    <div class="values-grid">
+      <div class="value-card">
+        <div class="value-icon">🚀</div>
+        <h3>Innovation</h3>
+        <p>Nous restons à la pointe des dernières tendances et technologies pour offrir des solutions avant-gardistes.</p>
+      </div>
+      
+      <div class="value-card">
+        <div class="value-icon">🤝</div>
+        <h3>Partenariat</h3>
+        <p>Nous construisons des relations durables basées sur la confiance et la transparence avec nos clients.</p>
+      </div>
+      
+      <div class="value-card">
+        <div class="value-icon">📊</div>
+        <h3>Performance</h3>
+        <p>Chaque action est mesurée et optimisée pour garantir un retour sur investissement maximal.</p>
+      </div>
+      
+      <div class="value-card">
+        <div class="value-icon">🎯</div>
+        <h3>Personnalisation</h3>
+        <p>Chaque stratégie est unique et adaptée aux besoins spécifiques de votre entreprise.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="cta-section">
+    <h2>Prêt à booster votre présence digitale ?</h2>
+    <p>Rejoignez les centaines d'entreprises qui nous font confiance pour leur croissance digitale.</p>
+    <a href="contact.html" class="btn">Parlons de votre projet</a>
+  </section>
+
+  <footer>
+    <p>© 2025 DBG Agency - Tous droits réservés | Votre partenaire digital de confiance</p>
+  </footer>
+
+  <script>
+    // Animation des éléments au scroll
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.content-section, .team-member, .value-card').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
+      el.style.transition = 'all 0.6s ease';
+      observer.observe(el);
+    });
+
+    // Header background change on scroll
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      if (window.scrollY > 100) {
+        header.style.background = 'rgba(255, 255, 255, 0.98)';
+      } else {
+        header.style.background = 'rgba(255, 255, 255, 0.95)';
+      }
+    });
+
+    // Smooth animations for team cards
+    document.querySelectorAll('.team-member, .value-card').forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        card.style.transform = 'translateY(-5px) scale(1.02)';
+      });
+      
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'translateY(0) scale(1)';
+      });
+    });
+  </script>
+</body>
+</html>
