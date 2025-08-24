@@ -19,7 +19,7 @@
       min-height: 100vh;
     }
 
-    /* Navigation (même style que l'accueil) */
+    /* Navigation avec logo */
     header {
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(10px);
@@ -42,18 +42,42 @@
     }
 
     .logo {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      text-decoration: none;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+    }
+
+    .logo img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+      border: 2px solid transparent;
+      background: linear-gradient(white, white) padding-box,
+                  linear-gradient(45deg, #667eea, #764ba2) border-box;
+      transition: all 0.3s ease;
+    }
+
+    .logo img:hover {
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+      transform: rotate(5deg);
+    }
+
+    .logo-text {
       font-size: 2rem;
       font-weight: bold;
       background: linear-gradient(45deg, #667eea, #764ba2);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      cursor: pointer;
-      transition: transform 0.3s ease;
-    }
-
-    .logo:hover {
-      transform: scale(1.05);
     }
 
     .nav-links {
@@ -124,6 +148,7 @@
       max-width: 600px;
       margin: 0 auto;
     }
+
     .hero-image {
       display: flex;
       justify-content: center;
@@ -131,7 +156,9 @@
       flex-direction: column;
       gap: 2rem;
       position: relative;
+      margin-top: 2rem;
     }
+
     .hero-image img:first-child {
       width: 100%;
       max-width: 500px;
@@ -141,6 +168,7 @@
       animation: fadeInRight 1s ease-out 0.5s both;
       transition: transform 0.3s ease;
     }
+
     .hero-image img:first-child:hover {
       transform: scale(1.05);
     }
@@ -155,9 +183,6 @@
       transition: transform 0.3s ease;
       border: 4px solid rgba(255, 255, 255, 0.8);
     }
-
-    
-
 
     /* Content Sections */
     .content-section {
@@ -389,6 +414,17 @@
       }
     }
 
+    @keyframes fadeInRight {
+      from {
+        opacity: 0;
+        transform: translateX(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
     @keyframes float {
       0% { transform: translateX(-100px); }
       100% { transform: translateX(100vw); }
@@ -400,8 +436,25 @@
         display: none;
       }
 
+      .logo {
+        gap: 0.5rem;
+      }
+
+      .logo img {
+        width: 40px;
+        height: 40px;
+      }
+
+      .logo-text {
+        font-size: 1.5rem;
+      }
+
       .page-hero h1 {
         font-size: 2.2rem;
+      }
+
+      .page-hero {
+        padding: 100px 1rem 60px;
       }
 
       .content-section {
@@ -417,6 +470,30 @@
         margin: 1rem;
         padding: 2rem;
       }
+
+      .hero-image img:first-child {
+        max-width: 300px;
+      }
+
+      .hero-image img:last-child {
+        width: 80px;
+        height: 80px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .logo-text {
+        font-size: 1.2rem;
+      }
+
+      .logo img {
+        width: 35px;
+        height: 35px;
+      }
+
+      nav {
+        padding: 0 1rem;
+      }
     }
   </style>
 </head>
@@ -424,7 +501,10 @@
   <!-- Navigation -->
   <header>
     <nav>
-      <div class="logo" onclick="window.location.href='index.html'">DBG Agency</div>
+      <a href="index.html" class="logo">
+        <img src="images/logo.jpg" alt="DBG Agency Logo" />
+        <span class="logo-text">DBG Agency</span>
+      </a>
       <ul class="nav-links">
         <li><a href="index.html">Accueil</a></li>
         <li><a href="about.html" class="active">À propos</a></li>
@@ -440,28 +520,26 @@
     <p>Une équipe passionnée dédiée à votre succès digital</p>
     <div class="hero-image">
         <img src="images/image5.jpg" alt="Marketing Digital" />
-       
     </div>
   </section>
 
   <!-- Notre Histoire -->
   <section class="content-section">
     <h2>Notre Histoire</h2>
-    <p>Notre entreprise est un cabinet de conseil en marketing digital basé à Abidjan, en Côte d’Ivoire. Nous accompagnons nos clients dans la définition, la mise en œuvre et l’optimisation de leurs stratégies digitales afin d’augmenter leur visibilité, engager leur audience et générer de la croissance. Ce projet est né d’une ambition forte, celle d’accompagner les marques locales et culturelles d’Afrique francophone dans leur transformation digitale, tout en valorisant leur identité, leur histoire et leurs richesses. Dans un contexte où de nombreuses entreprises locales peinent à se faire une place sur les canaux numériques,
+    <p>Notre entreprise est un cabinet de conseil en marketing digital basé à Abidjan, en Côte d'Ivoire. Nous accompagnons nos clients dans la définition, la mise en œuvre et l'optimisation de leurs stratégies digitales afin d'augmenter leur visibilité, engager leur audience et générer de la croissance. Ce projet est né d'une ambition forte, celle d'accompagner les marques locales et culturelles d'Afrique francophone dans leur transformation digitale, tout en valorisant leur identité, leur histoire et leurs richesses. Dans un contexte où de nombreuses entreprises locales peinent à se faire une place sur les canaux numériques,
         Nous proposons des solutions sur mesure qui allient stratégie digitale, storytelling culturel et communication authentique.</p>
-    
   </section>
 
   <!-- Notre Mission -->
   <section class="content-section">
-    <h2>Notre Mission</h2>
-    <p>Notre démarche consiste à accompagner la transformation digitale des marques locales en intégrant des outils innovants, adaptés à leurs réalités culturelles et économiques. Nous plaçons au cœur de notre stratégie la valorisation de l’identité culturelle des marques africaines à travers des actions de communication créatives, authentiques et porteuses de sens.
+    <h2>Notre engagement</h2>
+    <p>Notre démarche consiste à accompagner la transformation digitale des marques locales en intégrant des outils innovants, adaptés à leurs réalités culturelles et économiques. Nous plaçons au cœur de notre stratégie la valorisation de l'identité culturelle des marques africaines à travers des actions de communication créatives, authentiques et porteuses de sens.</p>
 
-Nous concevons et mettons en œuvre des stratégies marketing sur mesure, alignées sur les valeurs, l’histoire et les produits des entreprises clientes. Parallèlement, nous accordons une importance particulière au renforcement des compétences digitales des entrepreneurs, artisans, artistes et structures culturelles, afin de leur permettre de devenir pleinement autonomes dans leur communication et leur présence en ligne.
+    <p>Nous concevons et mettons en œuvre des stratégies marketing sur mesure, alignées sur les valeurs, l'histoire et les produits des entreprises clientes. Parallèlement, nous accordons une importance particulière au renforcement des compétences digitales des entrepreneurs, artisans, artistes et structures culturelles, afin de leur permettre de devenir pleinement autonomes dans leur communication et leur présence en ligne.</p>
 
-Notre engagement se traduit également par la promotion de l’économie locale et du « made in Africa », en offrant une visibilité accrue aux produits et savoir-faire africains sur les marchés nationaux et internationaux. Dans cette perspective, nous créons du contenu digital original – vidéos, visuels, récits, podcasts – en lien avec les traditions, l’artisanat, la gastronomie ou encore les cosmétiques africains.
+    <p>Notre engagement se traduit également par la promotion de l'économie locale et du « made in Africa », en offrant une visibilité accrue aux produits et savoir-faire africains sur les marchés nationaux et internationaux. Dans cette perspective, nous créons du contenu digital original – vidéos, visuels, récits, podcasts – en lien avec les traditions, l'artisanat, la gastronomie ou encore les cosmétiques africains.</p>
 
-Enfin, nous assurons une veille stratégique et concurrentielle constante afin d’anticiper les tendances du numérique et de proposer des solutions innovantes, adaptées aux besoins et aux ambitions des marques africaines.</p>
+    <p>Enfin, nous assurons une veille stratégique et concurrentielle constante afin d'anticiper les tendances du numérique et de proposer des solutions innovantes, adaptées aux besoins et aux ambitions des marques africaines.</p>
   </section>
 
   <!-- Notre Équipe -->
@@ -473,19 +551,19 @@ Enfin, nous assurons une veille stratégique et concurrentielle constante afin d
       <div class="team-member">
         <div class="team-avatar">👩‍💻</div>
         <h3>DABRE MARIAM</h3>
-        <div class="team-role">Directeur & Stratège Digital</div>
+        <div class="team-role">Directrice générale</div>
       </div>
       
       <div class="team-member">
         <div class="team-avatar">👩‍💻</div>
         <h3>BAKAYOKO FATOUMATA THERESA</h3>
-        <div class="team-role">Responsable SEO</div>
+        <div class="team-role">Responsable contenu</div>
       </div>
       
       <div class="team-member">
         <div class="team-avatar">👩‍💻</div>
         <h3>GBESSI EVA AURORE</h3>
-        <div class="team-role">Créatif & Community Manager</div>
+        <div class="team-role">Responsable business développement</div>
       </div>
     </div>
   </section>
@@ -575,6 +653,12 @@ Enfin, nous assurons une veille stratégique et concurrentielle constante afin d
       card.addEventListener('mouseleave', () => {
         card.style.transform = 'translateY(0) scale(1)';
       });
+    });
+
+    // Logo click handler
+    document.querySelector('.logo').addEventListener('click', (e) => {
+      e.preventDefault();
+      window.location.href = 'index.html';
     });
   </script>
 </body>

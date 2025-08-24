@@ -19,7 +19,7 @@
       min-height: 100vh;
     }
 
-    /* Navigation (même style) */
+    /* Navigation avec logo corrigé */
     header {
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(10px);
@@ -42,18 +42,42 @@
     }
 
     .logo {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      text-decoration: none;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+    }
+
+    .logo img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+      border: 2px solid transparent;
+      background: linear-gradient(white, white) padding-box,
+                  linear-gradient(45deg, #667eea, #764ba2) border-box;
+      transition: all 0.3s ease;
+    }
+
+    .logo img:hover {
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+      transform: rotate(5deg);
+    }
+
+    .logo-text {
       font-size: 2rem;
       font-weight: bold;
       background: linear-gradient(45deg, #667eea, #764ba2);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      cursor: pointer;
-      transition: transform 0.3s ease;
-    }
-
-    .logo:hover {
-      transform: scale(1.05);
     }
 
     .nav-links {
@@ -125,11 +149,14 @@
     }
 
     .hero-image {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      gap: 2rem;
+      width: 300px;
+      height: 300px;
+      border-radius: 20px;
+      object-fit: cover;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+      animation: fadeInRight 1s ease-out 0.9s both;
+      z-index: 2;
       position: relative;
     }
 
@@ -452,10 +479,24 @@
         display: none;
       }
 
+      .logo {
+        gap: 0.5rem;
+      }
+
+      .logo img {
+        width: 40px;
+        height: 40px;
+      }
+
+      .logo-text {
+        font-size: 1.5rem;
+      }
+
       .page-hero {
         flex-direction: column;
         text-align: center;
         gap: 2rem;
+        padding: 100px 1rem 60px;
       }
 
       .hero-content {
@@ -495,13 +536,31 @@
         grid-template-columns: 1fr;
       }
     }
+
+    @media (max-width: 480px) {
+      .logo-text {
+        font-size: 1.2rem;
+      }
+
+      .logo img {
+        width: 35px;
+        height: 35px;
+      }
+
+      nav {
+        padding: 0 1rem;
+      }
+    }
   </style>
 </head>
 <body>
   <!-- Navigation -->
   <header>
     <nav>
-      <div class="logo" onclick="window.location.href='index.html'">DBG Agency</div>
+      <a href="index.html" class="logo">
+        <img src="images/logo.jpg" alt="DBG Agency Logo" />
+        <span class="logo-text">DBG Agency</span>
+      </a>
       <ul class="nav-links">
         <li><a href="index.html">Accueil</a></li>
         <li><a href="about.html">À propos</a></li>
@@ -525,7 +584,7 @@
     <div class="service-card">
       <div class="service-header">
         <div class="service-icon">🚀</div>
-        <h2>AUDIT ET REFERENCEMENT DIGITALM(SEO/SEA)</h2>
+        <h2>AUDIT ET REFERENCEMENT DIGITAL (SEO/SEA)</h2>
       </div>
       <p class="service-description">
         Dominez les résultats de recherche Google et attirez un trafic qualifié vers votre site web. Notre approche SEO combine expertise technique et stratégie de contenu pour des résultats durables.
@@ -537,16 +596,24 @@
           <p>Analyse technique approfondie de votre site et identification des points d'amélioration</p>
         </div>
         <div class="feature">
+            <h3>Audit et diagnostic digital local</h3>
+            <p>Analyse de la visibilité locale de la marque sur plateformes spécialisées(Google My Business,pagesjaunes,annuaires locaux)</p>
+        </div>
+        <div class="feature">
+          <h3>Etude de la concurrence et du positionnement géo localisé</h3>
+          <p>Analyse de la concurrence avec la dimension géographique, pour comprendre où se situer et comment se différencier sur un territoire donné.</p>
+        </div>
+        <div class="feature">
           <h3> Stratégie et formation digitale </h3>
           <p>La transformation digitale n'est plus une option mais une nécessité : élaborer une stratégie digitale et former les collaborateurs sont aujourd'hui des conditions essentielles pour rester compétitif.</p>
         </div>
         <div class="feature">
-          <h3>Link Building</h3>
-          <p>Stratégie de création de liens de qualité pour renforcer l'autorité de votre site</p>
+          <h3>Elaboration de contenus</h3>
+          <p>Mettant en avant l'identité regionale, le storytelling local</p>
         </div>
         <div class="feature">
-          <h3>Suivi & Reporting</h3>
-          <p>Rapports mensuels détaillés sur les performances et l'évolution du positionnement</p>
+          <h3>Coaching personnalisé</h3>
+          <p>Pour adapter la stratégie digitale à la spécificité de chaque térritoire</p>
         </div>
       </div>
 
@@ -737,6 +804,8 @@
         <a href="contact.html" class="btn">Débuter l'accompagnement</a>
       </div>
     </div>
+
+    <!-- Marketing de Contenu -->
     <div class="service-card">
       <div class="service-header">
         <div class="service-icon">📝</div>
@@ -858,6 +927,12 @@
       step.addEventListener('mouseleave', () => {
         step.querySelector('.step-number').style.transform = 'scale(1)';
       });
+    });
+
+    // Logo click handler
+    document.querySelector('.logo').addEventListener('click', (e) => {
+      e.preventDefault();
+      window.location.href = 'index.html';
     });
   </script>
 </body>
